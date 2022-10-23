@@ -27,8 +27,11 @@
                 android:layout_gravity="start|center_vertical"/>
 
             <ImageView
+                android:id="@+id/add_new_main_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
                 app:srcCompat="@drawable/ic_baseline_create_new_folder_32"
                 android:layout_gravity="end|center_vertical"/>
 

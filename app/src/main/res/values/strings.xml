@@ -2,4 +2,7 @@
     <string name="app_name">MyFileManager</string>
     <string name="search_input_hint">Search</string>
     <string name="external_storage_txt">External Storage</string>
+    <string name="add_new_folder_head_title">Add new folder</string>
+    <string name="add_new_folder_hint">Title</string>
+    <string name="add_new_folder_btn">Create</string>
 </resources>
