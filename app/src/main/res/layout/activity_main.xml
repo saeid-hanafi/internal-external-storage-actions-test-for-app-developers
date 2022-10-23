@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/main_appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_main_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="start|center_vertical"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_baseline_create_new_folder_32"
+                android:layout_gravity="end|center_vertical"/>
+
+
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/main_search_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:hint="@string/search_input_hint"
+            android:background="@drawable/search_input_back"
+            android:drawableStart="@drawable/ic_baseline_search_32"
+            android:layout_marginTop="12dp"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/view_sort_toggle_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            app:checkedButton="@+id/sort_list_view"
+            android:padding="8dp"
+            app:singleSelection="true"
+            app:selectionRequired="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sort_list_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconTint="@color/gray_500"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                app:icon="@drawable/ic_baseline_view_list_32"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sort_module_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:iconTint="@color/gray_500"
+                style="@style/Widget.App.Button.OutlinedButton.IconOnly"
+                app:icon="@drawable/ic_baseline_view_module_32"/>
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <FrameLayout
+            android:id="@+id/fl_main_fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/view_sort_toggle_group"/>
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

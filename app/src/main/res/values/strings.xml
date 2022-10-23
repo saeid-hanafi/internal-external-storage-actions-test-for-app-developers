@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MyFileManager</string>
+    <string name="search_input_hint">Search</string>
+    <string name="external_storage_txt">External Storage</string>
+</resources>
