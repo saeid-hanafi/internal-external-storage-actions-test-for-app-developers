@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardElevation="8dp"
+    app:cardCornerRadius="12dp"
+    android:backgroundTint="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:layout_gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/rv_iv_item_icons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_baseline_folder_open_24"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/rv_tv_item_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rv_iv_item_icons"
+            android:layout_alignBottom="@+id/rv_iv_item_icons"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="2dp"
+            android:layout_toStartOf="@id/rv_iv_more_icon"
+            android:layout_toEndOf="@id/rv_iv_item_icons"
+            android:paddingStart="8dp"
+            android:text="Downloads"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/rv_iv_more_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/rv_iv_item_icons"
+            android:layout_alignBottom="@+id/rv_iv_item_icons"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="0dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:srcCompat="@drawable/ic_baseline_more_vert_24" />
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

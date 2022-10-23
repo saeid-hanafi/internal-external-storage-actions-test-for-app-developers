@@ -1,5 +1,6 @@
 package com.fbscodes.myfilemanager;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,7 +12,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.itemsViewHol
     @NonNull
     @Override
     public itemsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        return new itemsViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.main_items, parent, false));
     }
 
     @Override
@@ -21,7 +22,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.itemsViewHol
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 20;
     }
 
     public static class itemsViewHolder extends RecyclerView.ViewHolder {
