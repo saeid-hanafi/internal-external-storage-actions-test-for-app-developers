@@ -1,6 +1,7 @@
 package com.fbscodes.myfilemanager;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 
 import java.io.File;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddNewDialog.addNewDialogListener {
     private String path;
     private MainFragment mainFragment;
 
@@ -47,5 +48,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void loadFragmentPages(String path) {
         this.loadFragmentPages(path, true);
+    }
+
+    @Override
+    public void onCreateNewFolderListener(String folderName) {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fl_main_fragmentContainer);
+        if (fragment instanceof MainFragment)
+            ((MainFragment) fragment).addNewFolder(folderName);
     }
 }

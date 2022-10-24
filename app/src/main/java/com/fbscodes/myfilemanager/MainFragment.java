@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.io.File;
 import java.util.Arrays;
 
@@ -23,6 +25,7 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
     private String path;
     private RecyclerView recyclerView;
     private ItemsAdapter itemsAdapter;
+    private View view;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -36,7 +39,7 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.main_fragment, container, false);
+        view = inflater.inflate(R.layout.main_fragment, container, false);
         TextView currentDir = view.findViewById(R.id.tv_current_directory);
         ImageView backIcon = (ImageView) view.findViewById(R.id.iv_main_back_btn);
         recyclerView = view.findViewById(R.id.rv_main_display_items);
@@ -68,6 +71,19 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
     @Override
     public void onClickItemListener(File file) {
         MainActivity mainActivity = (MainActivity) getActivity();
+        assert mainActivity != null;
         mainActivity.loadFragmentPages(file.getPath());
+    }
+
+    public void addNewFolder(String folderName) {
+        File newFolder = new File(path+File.separator+folderName);
+        if (!newFolder.exists()) {
+            if (newFolder.mkdir()) {
+                itemsAdapter.addNewItem(newFolder);
+                recyclerView.smoothScrollToPosition(0);
+            }
+        }else{
+            Snackbar.make(view, "Folder Name Exists!!", Snackbar.LENGTH_SHORT).show();
+        }
     }
 }

@@ -37,6 +37,11 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.itemsViewHol
         return files.size();
     }
 
+    public void addNewItem(File file) {
+        files.add(0, file);
+        notifyItemInserted(0);
+    }
+
     public class itemsViewHolder extends RecyclerView.ViewHolder {
         private ImageView itemIcon;
         private TextView fileName;
@@ -48,7 +53,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.itemsViewHol
         }
 
         public void bindFiles(File file) {
-            if (file.isFile())
+            if (file.isDirectory())
+                itemIcon.setImageResource(R.drawable.ic_baseline_folder_open_24);
+            else
                 itemIcon.setImageResource(R.drawable.ic_baseline_insert_drive_file_24);
             fileName.setText(file.getName());
             itemView.setOnClickListener(new View.OnClickListener() {
