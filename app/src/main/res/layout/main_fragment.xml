@@ -21,9 +21,10 @@
             android:layout_gravity="center_vertical"/>
 
         <TextView
+            android:id="@+id/tv_current_directory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/external_storage_txt"
+            android:text="@string/Internal_storage_txt"
             android:layout_marginStart="40dp"
             android:textColor="@color/black"
             android:textStyle="bold"
