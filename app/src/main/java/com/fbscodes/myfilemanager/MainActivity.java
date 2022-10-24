@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
+
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity implements AddNewDialog.addNewDialogListener {

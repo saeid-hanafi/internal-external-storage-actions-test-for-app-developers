@@ -18,6 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClickListener {
@@ -73,6 +76,53 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
         MainActivity mainActivity = (MainActivity) getActivity();
         assert mainActivity != null;
         mainActivity.loadFragmentPages(file.getPath());
+    }
+
+    @Override
+    public void onClickItemDeleteListener(File file) {
+        if (file.delete()) {
+            itemsAdapter.deleteItem(file);
+        }
+    }
+
+    @Override
+    public void onClickItemCopyListener(File file) {
+        try {
+            copyItem(file, getCopyDestination(file));
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.loadFragmentPages(getContext().getFilesDir().getPath() + File.separator + "destination");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onClickItemMoveListener(File file) {
+        try {
+            copyItem(file, getCopyDestination(file));
+            file.delete();
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.loadFragmentPages(getContext().getFilesDir().getPath() + File.separator + "destination");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public File getCopyDestination(File file) {
+        return new File(getContext().getFilesDir().getPath() + File.separator + "destination" + File.separator + file.getName());
+    }
+
+    public void copyItem(File source, File destination) throws IOException {
+        FileInputStream fileInputStream = new FileInputStream(source);
+        FileOutputStream fileOutputStream = new FileOutputStream(destination);
+        byte[] bytes = new byte[1024];
+        int bytesLength;
+        while ((bytesLength = fileInputStream.read(bytes)) > 0) {
+            fileOutputStream.write(bytes, 0, bytesLength);
+        }
+
+        fileInputStream.close();
+        fileOutputStream.close();
     }
 
     public void addNewFolder(String folderName) {

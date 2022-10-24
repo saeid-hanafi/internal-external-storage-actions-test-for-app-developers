@@ -5,4 +5,7 @@
     <string name="add_new_folder_head_title">Add new folder</string>
     <string name="add_new_folder_hint">Title</string>
     <string name="add_new_folder_btn">Create</string>
+    <string name="more_menu_delete">Delete</string>
+    <string name="more_menu_copy">Copy</string>
+    <string name="more_menu_move">Move</string>
 </resources>
