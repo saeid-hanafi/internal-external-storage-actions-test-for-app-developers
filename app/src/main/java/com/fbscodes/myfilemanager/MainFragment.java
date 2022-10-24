@@ -2,6 +2,7 @@ package com.fbscodes.myfilemanager;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -80,31 +81,89 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
 
     @Override
     public void onClickItemDeleteListener(File file) {
-        if (file.delete()) {
-            itemsAdapter.deleteItem(file);
-        }
+        deleteItem(file);
+        itemsAdapter.deleteItem(file);
     }
 
     @Override
     public void onClickItemCopyListener(File file) {
-        try {
-            copyItem(file, getCopyDestination(file));
-            MainActivity mainActivity = (MainActivity) getActivity();
-            mainActivity.loadFragmentPages(getContext().getFilesDir().getPath() + File.separator + "destination");
-        } catch (IOException e) {
-            e.printStackTrace();
+        String des = getContext().getFilesDir().getPath() + File.separator + "destination";
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (file.isDirectory()) {
+            String target = des + File.separator + file.getName();
+            File targetFile = new File(target);
+            if (!targetFile.exists()) {
+                if (targetFile.mkdir()) {
+                    File[] sourceFiles = file.listFiles();
+                    if (sourceFiles.length > 0) {
+                        for (int i = 0; i < sourceFiles.length; i++) {
+                            String newTarget = target + File.separator + sourceFiles[i].getName();
+                            File newTargetFile = new File(newTarget);
+                            if (sourceFiles[i].isDirectory()) {
+                                newTargetFile.mkdir();
+                            }else{
+                                try {
+                                    copyItem(sourceFiles[i], newTargetFile);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        mainActivity.loadFragmentPages(des);
+                    }
+                }
+            }else{
+                Snackbar.make(getView(), "Directory is exists!!", Snackbar.LENGTH_SHORT).show();
+            }
+        }else{
+            try {
+                copyItem(file, getCopyDestination(file));
+                mainActivity.loadFragmentPages(des);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void onClickItemMoveListener(File file) {
-        try {
-            copyItem(file, getCopyDestination(file));
-            file.delete();
-            MainActivity mainActivity = (MainActivity) getActivity();
-            mainActivity.loadFragmentPages(getContext().getFilesDir().getPath() + File.separator + "destination");
-        } catch (IOException e) {
-            e.printStackTrace();
+        String des = getContext().getFilesDir().getPath() + File.separator + "destination";
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if (file.isDirectory()) {
+            String target = des + File.separator + file.getName();
+            File targetFile = new File(target);
+            if (!targetFile.exists()) {
+                if (targetFile.mkdir()) {
+                    File[] sourceFiles = file.listFiles();
+                    if (sourceFiles.length > 0) {
+                        for (int i = 0; i < sourceFiles.length; i++) {
+                            String newTarget = target + File.separator + sourceFiles[i].getName();
+                            File newTargetFile = new File(newTarget);
+                            if (sourceFiles[i].isDirectory()) {
+                                newTargetFile.mkdir();
+                            }else{
+                                try {
+                                    copyItem(sourceFiles[i], newTargetFile);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        deleteItem(file);
+                        mainActivity.loadFragmentPages(des);
+                    }
+                }
+            }else{
+                Snackbar.make(getView(), "Directory is exists!!", Snackbar.LENGTH_SHORT).show();
+            }
+        }else{
+            try {
+                copyItem(file, getCopyDestination(file));
+                deleteItem(file);
+                mainActivity.loadFragmentPages(des);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -123,6 +182,22 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
 
         fileInputStream.close();
         fileOutputStream.close();
+    }
+
+    public void deleteItem(File file) {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            if (files.length > 0) {
+                for (int i = 0; i < files.length; i++) {
+                    files[i].delete();
+                }
+                file.delete();
+            }else{
+                file.delete();
+            }
+        }else{
+            file.delete();
+        }
     }
 
     public void addNewFolder(String folderName) {
