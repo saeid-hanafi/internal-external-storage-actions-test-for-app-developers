@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +34,27 @@ public class MainActivity extends AppCompatActivity implements AddNewDialog.addN
             public void onClick(View v) {
                 AddNewDialog addNewDialog = new AddNewDialog();
                 addNewDialog.show(getSupportFragmentManager(), null);
+            }
+        });
+
+        EditText searchInput = findViewById(R.id.main_search_input);
+        searchInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fl_main_fragmentContainer);
+                if (fragment instanceof MainFragment) {
+                    ((MainFragment) fragment).searchDocuments(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }

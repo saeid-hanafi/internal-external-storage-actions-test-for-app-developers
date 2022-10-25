@@ -167,6 +167,11 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
         }
     }
 
+    @Override
+    public void nothingFoundOnSearch() {
+        Snackbar.make(view, "Nothing Found!", Snackbar.LENGTH_LONG).show();
+    }
+
     public File getCopyDestination(File file) {
         return new File(getContext().getFilesDir().getPath() + File.separator + "destination" + File.separator + file.getName());
     }
@@ -210,5 +215,9 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
         }else{
             Snackbar.make(view, "Folder Name Exists!!", Snackbar.LENGTH_SHORT).show();
         }
+    }
+
+    public void searchDocuments(String query) {
+        itemsAdapter.searchItems(query);
     }
 }

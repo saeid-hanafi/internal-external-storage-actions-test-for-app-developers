@@ -1,5 +1,6 @@
 package com.fbscodes.myfilemanager;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,10 +18,12 @@ import java.util.List;
 
 public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.itemsViewHolder> {
     private List<File> files;
+    private List<File> filteredFiles;
     private adapterOnClickListener eventListener;
 
     public ItemsAdapter(List<File> files, adapterOnClickListener listener) {
         this.files = new ArrayList<>(files);
+        this.filteredFiles = this.files;
         eventListener = (adapterOnClickListener) listener;
     }
     @NonNull
@@ -31,12 +34,12 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.itemsViewHol
 
     @Override
     public void onBindViewHolder(@NonNull itemsViewHolder holder, int position) {
-        holder.bindFiles(files.get(position));
+        holder.bindFiles(filteredFiles.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return files.size();
+        return filteredFiles.size();
     }
 
     public void addNewItem(File file) {
@@ -110,6 +113,30 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.itemsViewHol
         void onClickItemDeleteListener(File file);
         void onClickItemCopyListener(File file);
         void onClickItemMoveListener(File file);
+        void nothingFoundOnSearch();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void searchItems(String query) {
+        if (query.length() > 0) {
+            List<File> result = new ArrayList<>();
+            for (File file: this.files) {
+                if (file.getName().toLowerCase().contains(query.toLowerCase())) {
+                    result.add(file);
+                }
+            }
+            if (result.size() > 0) {
+                this.filteredFiles = result;
+                notifyDataSetChanged();
+            }else{
+                this.filteredFiles = new ArrayList<>();
+                notifyDataSetChanged();
+                eventListener.nothingFoundOnSearch();
+            }
+        }else{
+            this.filteredFiles = this.files;
+            notifyDataSetChanged();
+        }
     }
 
 }
