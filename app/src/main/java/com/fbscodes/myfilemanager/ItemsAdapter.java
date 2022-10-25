@@ -20,16 +20,26 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.itemsViewHol
     private List<File> files;
     private List<File> filteredFiles;
     private adapterOnClickListener eventListener;
+    private ViewTypes viewTypes = ViewTypes.ROW;
 
     public ItemsAdapter(List<File> files, adapterOnClickListener listener) {
         this.files = new ArrayList<>(files);
         this.filteredFiles = this.files;
         eventListener = (adapterOnClickListener) listener;
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void setViewTypes(ViewTypes viewTypes) {
+        this.viewTypes = viewTypes;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public itemsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new itemsViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.main_items, parent, false));
+        return new itemsViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                viewType == ViewTypes.ROW.getValue() ? R.layout.main_items : R.layout.main_items_grid, parent, false
+        ));
     }
 
     @Override
@@ -139,4 +149,8 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.itemsViewHol
         }
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return viewTypes.getValue();
+    }
 }

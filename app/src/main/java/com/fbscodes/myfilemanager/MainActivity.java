@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.button.MaterialButtonToggleGroup;
 
 import java.io.File;
 
@@ -55,6 +56,21 @@ public class MainActivity extends AppCompatActivity implements AddNewDialog.addN
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        MaterialButtonToggleGroup viewBtn = findViewById(R.id.view_sort_toggle_group);
+        viewBtn.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
+            @Override
+            public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
+                Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fl_main_fragmentContainer);
+                if (fragment instanceof MainFragment) {
+                    if (checkedId == R.id.sort_list_view && isChecked) {
+                        ((MainFragment) fragment).changeViewType(ViewTypes.ROW);
+                    }else if (checkedId == R.id.sort_module_view && isChecked) {
+                        ((MainFragment) fragment).changeViewType(ViewTypes.GRID);
+                    }
+                }
             }
         });
     }

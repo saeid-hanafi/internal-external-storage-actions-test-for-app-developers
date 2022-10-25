@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +31,7 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
     private RecyclerView recyclerView;
     private ItemsAdapter itemsAdapter;
     private View view;
+    private GridLayoutManager gridLayoutManager;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -56,7 +58,8 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
 
             assert files != null;
             itemsAdapter = new ItemsAdapter(Arrays.asList(files), this);
-            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+            gridLayoutManager = new GridLayoutManager(view.getContext(), 1, RecyclerView.VERTICAL, false);
+            recyclerView.setLayoutManager(gridLayoutManager);
             recyclerView.setAdapter(itemsAdapter);
         }catch (NullPointerException e) {
             Log.e(TAG, "onCreateView: Null Path");
@@ -219,5 +222,14 @@ public class MainFragment extends Fragment implements ItemsAdapter.adapterOnClic
 
     public void searchDocuments(String query) {
         itemsAdapter.searchItems(query);
+    }
+
+    public void changeViewType(ViewTypes viewType) {
+        itemsAdapter.setViewTypes(viewType);
+        if (viewType.getValue() == ViewTypes.ROW.getValue()) {
+            gridLayoutManager.setSpanCount(1);
+        }else if (viewType.getValue() == ViewTypes.GRID.getValue()) {
+            gridLayoutManager.setSpanCount(2);
+        }
     }
 }
